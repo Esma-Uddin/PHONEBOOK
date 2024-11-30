@@ -16,7 +16,7 @@ namespace PHONEBOOK
             {
                 Console.Clear();
                 Console.WriteLine("====== PHONEBOOK MENU ======");
-                //Console.WriteLine("1. Show All Contacts");
+                Console.WriteLine("1. Show All Contacts");
                 Console.WriteLine("2. Add Contact");
                 Console.WriteLine("3. Remove Contact");
                 Console.WriteLine("4. Update Contact");
