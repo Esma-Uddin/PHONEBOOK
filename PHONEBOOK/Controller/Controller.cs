@@ -88,67 +88,37 @@ namespace PHONEBOOK.Controller
         //}
 
 
-        public void ShowAllContacs()
+        public void ShowAllContacts()
+ {
+     using (SqlConnection connection = new SqlConnection("Data Source=localhost;Database=CONTACT;Integrated Security=sspi;"))
+     {
+         try
+         {
+             connection.Open();
 
-        {
-            string query = "SELECT * FROM CONTACTS";
-            using (SqlConnection connection = new SqlConnection("Data Source=localhost;Database=CONTACT;Integrated Security=sspi;"))
+             string query = "SELECT * FROM CONTACTS";
+             using (SqlCommand command = new SqlCommand(query, connection))
+             using (SqlDataReader reader = command.ExecuteReader())
+             {
+                 Console.WriteLine("\n--- Contact List ---");
 
-            {
+                 while (reader.Read())
+                 {
+                     Console.WriteLine($"ID: {reader["ID"]}, Name: {reader["Name"]}, Surname: {reader["Surname"]}, " +
+                                       $"Gmail: {reader["Gmail"]}, Number: {reader["Number"]}, Website: {reader["Website"]}");
+                 }
+                 Console.WriteLine("\n--- End of List ---");
+             }
+         }
+         catch (Exception ex)
+         {
+             Console.WriteLine($"Error: {ex.Message}");
+         }
+     }
 
-                {
-                    try
-                    {
-                        connection.Open();
-                        using (SqlCommand command = new SqlCommand(query, connection))
-                        {
-                            using (SqlDataReader reader = command.ExecuteReader())
-                            {
-
-                                if (reader.HasRows)
-                                {
-                                    Console.WriteLine("All Contacts:");
-                                    Console.WriteLine("-------------------------------");
-                                    while (reader.Read())
-                                    {
-                                        int id = reader.GetInt32(0);
-                                        string name = reader.GetString(1);
-                                        string surname = reader.GetString(2);
-                                        string gmail = reader.IsDBNull(3) ? "N/A" : reader.GetString(3);
-                                        string number = reader.GetString(4);
-                                        string website = reader.IsDBNull(5) ? "N/A" : reader.GetString(5);
-
-                                        Console.WriteLine($"ID: {id}, Name: {name}, Surname: {surname}, Gmail: {gmail}, Number: {number}, Website: {website}");
-                                    }
-                                    Console.WriteLine("-------------------------------");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("contact tapilmadi");
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"ERROR MESAJI: {ex.Message}");
-                    }
-                }
-            }
-            while (true)
-            {
-
-            }
-            {
-
-
-            }
-        }
-
-        internal void ShowAllContacts()
-        {
-
-        }
+     Console.WriteLine("\nPress any key to return to the menu...");
+     Console.ReadKey();
+ }
 
 
 
